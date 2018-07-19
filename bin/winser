@@ -171,7 +171,15 @@ async.series([
                     next('Can\'t find npm...');
                     return;
                 }
-                options.startcmd = 'npm start';
+                /// Val edited
+                var paths = stdout.split("\r\n");
+                var path = null;
+                for (var p of paths) {
+                    if (p.indexOf("nodejs") >= 0) {
+                        path = p; break;
+                    }
+                }
+                options.startcmd = '"' + path + '"' + ' start';
                 next();
             });
             return;
@@ -246,6 +254,14 @@ async.series([
                     next(error);
                 });
         }
+    },
+    function(next) {
+        /// Val added
+        var logPath = path.join(options.path, "logs/service_log.txt");
+        nssmExec('set', `AppStdout ${logPath}`, (err) => {
+            if (err) next(`Can't set log folder (${logPath}) for service`);
+            else next();
+        });
     },
     function(next){
         nssmExec('set', 'AppDirectory "' + options.path + '"',
