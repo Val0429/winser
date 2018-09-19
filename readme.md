@@ -2,6 +2,11 @@
 
   Run node.js applications as windows services using [nssm](http://nssm.cc).
 
+## Difference with jfromaniello's Original Version
+
+  * Upgraded nssm to support Windows 10.
+  * If multiple version of npm installed, will pick `/program files/nodejs` as the correct one.
+
 ## Installation
 
     $ npm install winser
